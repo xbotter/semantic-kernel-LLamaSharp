@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.AI.LLamaSharp", "src\Connectors.AI.LLamaSharp\Connectors.AI.LLamaSharp.csproj", "{500605AB-7FA7-4930-A46B-E68F1854602F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1FEDB632-13F5-4FF6-A56E-AAE7BB6D8860}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B3765B16-3A80-47F3-B46B-F2E8F811B0E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SK_LLamaSharpWebApi", "samples\SK_LLamaSharpWebApi\SK_LLamaSharpWebApi.csproj", "{E8650661-BBAB-4CFA-8F99-D1E34E95FD24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF9F71AD-9ADF-4E73-8711-8284DAA6D2BC}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{500605AB-7FA7-4930-A46B-E68F1854602F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500605AB-7FA7-4930-A46B-E68F1854602F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500605AB-7FA7-4930-A46B-E68F1854602F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500605AB-7FA7-4930-A46B-E68F1854602F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8650661-BBAB-4CFA-8F99-D1E34E95FD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8650661-BBAB-4CFA-8F99-D1E34E95FD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8650661-BBAB-4CFA-8F99-D1E34E95FD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8650661-BBAB-4CFA-8F99-D1E34E95FD24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{500605AB-7FA7-4930-A46B-E68F1854602F} = {1FEDB632-13F5-4FF6-A56E-AAE7BB6D8860}
+		{E8650661-BBAB-4CFA-8F99-D1E34E95FD24} = {B3765B16-3A80-47F3-B46B-F2E8F811B0E4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA048A15-D612-4F7C-9787-9CBC55BF7A04}
+	EndGlobalSection
+EndGlobal
