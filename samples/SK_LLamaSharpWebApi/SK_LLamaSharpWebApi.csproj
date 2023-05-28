@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="LLamaSharp.Backend.Cpu" />
 		<PackageReference Include="Microsoft.SemanticKernel" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>

@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="LLamaSharp" Version="0.3.0" />
+    <PackageVersion Include="LLamaSharp.Backend.Cpu" Version="0.3.0" />
     <PackageVersion Include="Microsoft.SemanticKernel" Version="0.14.547.1-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.14.547.1-preview" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 
 namespace SemanticKernel.LLamaSharp.WebApi.Controllers;
@@ -34,9 +35,10 @@ public class ChatController : ControllerBase
         {
             return NoContent();
         }
-        var completion = _kernel.GetService<ITextCompletion>();
-        var response = await completion.CompleteAsync(input.Input, new CompleteRequestSettings()).ConfigureAwait(false);
-
+        var chat = _kernel.GetService<IChatCompletion>();
+        var history = chat.CreateNewChat();
+        history.AddMessage(ChatHistory.AuthorRoles.User, input.Input);
+        var response = await chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = 256 }).ConfigureAwait(false);
         return Ok(response);
     }
 }

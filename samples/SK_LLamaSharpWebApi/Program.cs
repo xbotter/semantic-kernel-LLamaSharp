@@ -1,3 +1,4 @@
+using Connectors.AI.LLamaSharp.ChatCompletion;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.AI.LLamaSharp.TextCompletion;
 
@@ -14,6 +15,7 @@ builder.Services.AddScoped<IKernel>((_) =>
     var kernel = new KernelBuilder()
     .Configure(cfg =>
     {
+        cfg.AddChatCompletionService((_) => new LLamaSharpChatCompletion(builder.Configuration["ModelPath"]));
         cfg.AddTextCompletionService((_) => new LLamaSharpTextCompletion(builder.Configuration["ModelPath"]));
         cfg.AddTextEmbeddingGenerationService((_) => new LLamaSharpEmbeddingGeneration(builder.Configuration["ModelPath"]));
     }).Build();
