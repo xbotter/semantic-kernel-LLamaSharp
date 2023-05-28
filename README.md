@@ -1,2 +1,3 @@
 # semantic-kernel-LLamaSharp
-Custom TextCompletion and EmbeddingGeneration using LLamaSharp
+
+Using [LLamaSharp](https://github.com/SciSharp/LLamaSharp) to implement custom TextCompletion and EmbeddingGeneration of [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
