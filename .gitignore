@@ -400,3 +400,4 @@ FodyWeavers.xsd
 
 # LLaMa Model file 
 *.bin
+*.db
