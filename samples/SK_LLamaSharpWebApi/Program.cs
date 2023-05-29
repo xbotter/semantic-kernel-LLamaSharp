@@ -1,6 +1,8 @@
 using Connectors.AI.LLamaSharp.ChatCompletion;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.AI.LLamaSharp.TextCompletion;
+using Microsoft.SemanticKernel.Connectors.Memory.Sqlite;
+using Microsoft.SemanticKernel.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IKernel>((_) =>
+
+builder.Services.AddSingleton<IMemoryStore, VolatileMemoryStore>();
+builder.Services.AddScoped<IKernel>((sp) =>
 {
     var kernel = new KernelBuilder()
     .Configure(cfg =>
@@ -18,7 +22,9 @@ builder.Services.AddScoped<IKernel>((_) =>
         cfg.AddChatCompletionService((_) => new LLamaSharpChatCompletion(builder.Configuration["ModelPath"]));
         cfg.AddTextCompletionService((_) => new LLamaSharpTextCompletion(builder.Configuration["ModelPath"]));
         cfg.AddTextEmbeddingGenerationService((_) => new LLamaSharpEmbeddingGeneration(builder.Configuration["ModelPath"]));
-    }).Build();
+    })
+    .WithMemoryStorage(sp.GetRequiredService<IMemoryStore>())
+    .Build();
     return kernel;
 });
 

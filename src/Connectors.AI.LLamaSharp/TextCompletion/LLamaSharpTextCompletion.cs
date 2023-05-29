@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Microsoft.SemanticKernel.Connectors.AI.LLamaSharp.TextCompletion;
 
+// TODO: This is a copy of the ChatCompletion version.  It needs to be updated to use the TextCompletion version of the LLamaSharp model.
+
 /// <summary>
 /// Text Completion use LLamaSharp
 /// </summary>
