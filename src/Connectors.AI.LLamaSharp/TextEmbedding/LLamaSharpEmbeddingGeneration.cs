@@ -13,7 +13,7 @@ namespace Microsoft.SemanticKernel.Connectors.AI.LLamaSharp.TextCompletion;
 /// <summary>
 /// IEmbeddingGeneration use LLamaSharp 
 /// </summary>
-public class LLamaSharpEmbeddingGeneration : IEmbeddingGeneration<string, float>, IDisposable
+public class LLamaSharpEmbeddingGeneration : ITextEmbeddingGeneration, IDisposable
 {
     readonly LLamaEmbedder _embedder;
     private bool isDisposed;
@@ -23,7 +23,7 @@ public class LLamaSharpEmbeddingGeneration : IEmbeddingGeneration<string, float>
     /// <param name="modelPath"></param>
     public LLamaSharpEmbeddingGeneration(string modelPath)
     {
-        this._embedder = new LLamaEmbedder(new LLamaParams(model: modelPath));
+        this._embedder = new LLamaEmbedder(new LLamaParams(model: modelPath, n_gpu_layers: 0));
     }
 
 
