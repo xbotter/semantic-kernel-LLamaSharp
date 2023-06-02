@@ -2,6 +2,7 @@
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,19 +10,27 @@ using System.Threading.Tasks;
 
 namespace Connectors.AI.LLamaSharp.ChatCompletion
 {
-    public class LLamaSharpChatCompletion : IChatCompletion
+    public class LLamaSharpChatCompletion : IChatCompletion, IDisposable
     {
         private readonly string _modelPath;
+        private readonly string _promptPath;
+        private readonly List<string> _antiprompt;
+        private LLamaModel _model = null;
         const string UserPrefix = "User:";
-        const string BotPrefix = "Bot:";
 
-        public LLamaSharpChatCompletion(string modelPath)
+        public LLamaSharpChatCompletion(string modelPath, string promptPath, List<string> antiprompt = null)
         {
             this._modelPath = modelPath;
+            this._promptPath = promptPath;
+            this._antiprompt = antiprompt;
         }
-        private LLamaModel CreateModel(int max_tokens = 256)
+        private void CreateModel(int max_tokens = 256)
         {
-            return new LLamaModel(new LLamaParams(model: _modelPath, n_predict: max_tokens, interactive: true, verbose_prompt: true));
+            if (_model is not null)
+            {
+                return;
+            }
+            _model = new LLamaModel(new LLamaParams(model: _modelPath, n_threads: 10, prompt: File.ReadAllText(_promptPath), antiprompt: _antiprompt, n_ctx: max_tokens, interactive: true, repeat_penalty: 1.0f));
         }
         public ChatHistory CreateNewChat(string instructions = "")
         {
@@ -34,10 +43,11 @@ namespace Connectors.AI.LLamaSharp.ChatCompletion
         {
             chat ??= CreateNewChat();
             var maxTokens = requestSettings?.MaxTokens ?? 256;
-            using var model = CreateModel(maxTokens);
+            CreateModel(maxTokens);
             var antiPrompt = new List<string> { UserPrefix }.Concat(requestSettings?.StopSequences).ToArray();
-            model.InitChatAntiprompt(antiPrompt);
-            var response = model.Chat(HistoryToPrompt(chat));
+            _model.InitChatAntiprompt(antiPrompt);
+            var input = HistoryToPrompt(chat);
+            var response = _model.Chat(input);
             var sb = new StringBuilder();
             foreach (var res in response)
             {
@@ -57,9 +67,9 @@ namespace Connectors.AI.LLamaSharp.ChatCompletion
 
         public IAsyncEnumerable<string> GenerateMessageStreamAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
         {
-            using var model = CreateModel(requestSettings.MaxTokens);
-            model.InitChatAntiprompt(new[] { UserPrefix });
-            var result = model.Chat(HistoryToPrompt(chat));
+            CreateModel(requestSettings.MaxTokens);
+            _model.InitChatAntiprompt(new[] { UserPrefix });
+            var result = _model.Chat(HistoryToPrompt(chat));
             return result.ToAsyncEnumerable();
         }
 
@@ -74,17 +84,25 @@ namespace Connectors.AI.LLamaSharp.ChatCompletion
                 }
                 else if (item.AuthorRole == ChatHistory.AuthorRoles.User)
                 {
-                    sb.Append(UserPrefix);
+                    //sb.Append(UserPrefix);
                     sb.AppendLine(item.Content);
                 }
                 else if (item.AuthorRole == ChatHistory.AuthorRoles.Assistant)
                 {
-                    sb.Append(BotPrefix);
+                    //sb.Append(BotPrefix);
                     sb.AppendLine(item.Content);
                 }
             }
-            sb.Append(BotPrefix);
+            //sb.Append(BotPrefix);
             return sb.ToString();
+        }
+
+        public void Dispose()
+        {
+            if (_model is not null)
+            {
+                _model.Dispose();
+            }
         }
     }
 }

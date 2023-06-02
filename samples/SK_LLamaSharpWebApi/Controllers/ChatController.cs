@@ -29,16 +29,16 @@ public class ChatController : ControllerBase
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost()]
-    public async Task<IActionResult> ChatAsync([FromBody] UserInput input)
+    public IActionResult ChatAsync([FromBody] UserInput input)
     {
         if (string.IsNullOrWhiteSpace(input?.Input))
         {
             return NoContent();
         }
         var chat = _kernel.GetService<IChatCompletion>();
-        var history = chat.CreateNewChat();
+        var history = new ChatHistory();
         history.AddMessage(ChatHistory.AuthorRoles.User, input.Input);
-        var response = await chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = 256 }).ConfigureAwait(false);
+        var response = chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = 256 }).Result;
         return Ok(response);
     }
 }

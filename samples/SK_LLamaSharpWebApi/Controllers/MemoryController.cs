@@ -19,11 +19,11 @@ namespace SemanticKernel.LLamaSharp.WebApi.Controllers
         public async Task<string> StoreMemory([FromBody] UserInput input)
         {
             var id = Guid.NewGuid().ToString("N");
-            var uid = await _kernel.Memory.SaveInformationAsync(Collection,input.Input, id).ConfigureAwait(false);
+            var uid = await _kernel.Memory.SaveInformationAsync(Collection, input.Input, id).ConfigureAwait(false);
             return uid;
         }
         [HttpPost("search")]
-        public async Task<IActionResult> MemorySearch([FromBody]UserInput input)
+        public async Task<IActionResult> MemorySearch([FromBody] UserInput input)
         {
             var result = await _kernel.Memory.SearchAsync(Collection, input.Input).FirstAsync().ConfigureAwait(false);
             return Ok(result);
