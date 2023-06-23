@@ -6,5 +6,6 @@
 	<ItemGroup>
 		<PackageReference Include="LLamaSharp" />
 		<PackageReference Include="Microsoft.SemanticKernel.Abstractions" />
+		<PackageReference Include="Microsoft.VisualStudio.Validation" />
 	</ItemGroup>
 </Project>
