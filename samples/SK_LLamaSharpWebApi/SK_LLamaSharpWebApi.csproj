@@ -13,6 +13,7 @@
 		<PackageReference Include="Microsoft.SemanticKernel" />
 		<PackageReference Include="Microsoft.SemanticKernel.Connectors.Memory.Sqlite" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="System.Linq.Async" />
 	</ItemGroup>
 
 	<ItemGroup>

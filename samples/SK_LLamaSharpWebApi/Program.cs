@@ -19,10 +19,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IMemoryStore, VolatileMemoryStore>();
 builder.Services.AddSingleton<IKernel>((sp) =>
 {
-    string prompt = File.ReadAllText(builder.Configuration["PromptPath"]);
     var kernel = new KernelBuilder()
-    .WithAIService<IChatCompletion>("llama_chat_completion", new LLamaSharpChatCompletion(builder.Configuration["ModelPath"], builder.Configuration["PromptPath"], new List<string>() { "User:" }), true)
-    .WithAIService<ITextCompletion>("llama_text_completion", new LLamaSharpTextCompletion(builder.Configuration["ModelPath"], prompt, new string[] { "User:" }), true)
+    .WithAIService<IChatCompletion>("llama_chat_completion", new LLamaSharpChatCompletion(builder.Configuration["ModelPath"]))
+    .WithAIService<ITextCompletion>("llama_text_completion", new LLamaSharpTextCompletion(builder.Configuration["ModelPath"]))
     .WithAIService<ITextEmbeddingGeneration>("llama_text_embedding", new LLamaSharpEmbeddingGeneration(builder.Configuration["ModelPath"]))
     .WithMemoryStorage(sp.GetRequiredService<IMemoryStore>())
     .Build();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
+using SemanticKernel.LLamaSharp.WebApi.Controllers.InputModels;
 
 namespace SemanticKernel.LLamaSharp.WebApi.Controllers;
 
@@ -24,12 +25,12 @@ public class ChatController : ControllerBase
         this._kernel = kernel;
     }
     /// <summary>
-    /// 
+    /// Simple Chat
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost()]
-    public IActionResult ChatAsync([FromBody] UserInput input)
+    public async Task<IActionResult> ChatAsync([FromBody] UserInput input)
     {
         if (string.IsNullOrWhiteSpace(input?.Input))
         {
@@ -37,8 +38,59 @@ public class ChatController : ControllerBase
         }
         var chat = _kernel.GetService<IChatCompletion>();
         var history = new ChatHistory();
-        history.AddMessage(ChatHistory.AuthorRoles.User, input.Input);
-        var response = chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = 256 }).Result;
+        history.AddUserMessage(input.Input);
+        var response = await chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = input.MaxTokens }).ConfigureAwait(false);
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Chat With History
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost("history")]
+    public async Task<IActionResult> ChatHistoryAsync([FromBody] UserChatInput input)
+    {
+        if (input is null)
+        {
+            return NoContent();
+        }
+
+        var chat = _kernel.GetService<IChatCompletion>();
+        var history = new ChatHistory();
+
+        history.AddRange(input.Messages);
+
+        var response = await chat.GenerateMessageAsync(history, new ChatRequestSettings() { MaxTokens = input.MaxTokens }).ConfigureAwait(false);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Chat With Stream
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost("stream")]
+    public async Task ChatStreamAsync([FromBody] UserInput input)
+    {
+        if (string.IsNullOrWhiteSpace(input?.Input))
+        {
+            await Response.CompleteAsync().ConfigureAwait(false);
+            return;
+        }
+        var chat = _kernel.GetService<IChatCompletion>();
+        var history = new ChatHistory();
+        history.AddUserMessage(input.Input);
+        var response = chat.GenerateMessageStreamAsync(history, new ChatRequestSettings() { MaxTokens = input.MaxTokens });
+
+        Response.ContentType = "text/event-stream";
+
+        await foreach (var r in response)
+        {
+            await Response.WriteAsync("data: " + r + "\n\n").ConfigureAwait(false);
+            await Response.Body.FlushAsync().ConfigureAwait(false);
+        }
+
+        await Response.CompleteAsync().ConfigureAwait(false);
     }
 }

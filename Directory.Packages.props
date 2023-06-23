@@ -5,12 +5,14 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="LLamaSharp" Version="0.3.0" />
+    <PackageVersion Include="LLamaSharp" Version="0.4.1-preview" />
     <PackageVersion Include="LLamaSharp.Backend.Cuda11" Version="0.3.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel" Version="0.15.230531.5-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.15.230531.5-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel" Version="0.16.230615.1-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.16.230615.1-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Memory.Sqlite" Version="0.14.547.1-preview" />
+    <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
     <PackageVersion Include="System.Text.Json" Version="[6.0.0, )" />
     <PackageVersion Include="Azure.AI.OpenAI" Version="[1.0.0-beta.5, )" />
     <!-- Microsoft.Extensions.Logging -->
