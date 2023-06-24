@@ -87,7 +87,7 @@ public class ChatController : ControllerBase
 
         await foreach (var r in response)
         {
-            await Response.WriteAsync("data: " + r + "\n\n").ConfigureAwait(false);
+            await Response.WriteAsync("data: " + r + "\n").ConfigureAwait(false);
             await Response.Body.FlushAsync().ConfigureAwait(false);
         }
 

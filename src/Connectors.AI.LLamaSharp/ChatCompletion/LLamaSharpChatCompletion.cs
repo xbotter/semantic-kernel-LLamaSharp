@@ -39,7 +39,7 @@ namespace Connectors.AI.LLamaSharp.ChatCompletion
 
             if (instructions != null && !string.IsNullOrEmpty(instructions))
             {
-                history.AddAssistantMessage(instructions);
+                history.AddSystemMessage(instructions);
             }
 
             return history;
@@ -85,7 +85,9 @@ namespace Connectors.AI.LLamaSharp.ChatCompletion
         {
             _model ??= new LLamaModel(new LLama.Common.ModelParams(this._modelPath));
             var executor = new InteractiveExecutor(_model);
-            var chatSession = new ChatSession(executor).WithOutputTransform(new LLamaTransforms.KeywordTextOutputStreamTransform(new string[] { UserRole, AssistantRole }, redundancyLength: 10));
+            var chatSession = new ChatSession(executor)
+                .WithHistoryTransform(new HistoryTransform())
+                .WithOutputTransform(new LLamaTransforms.KeywordTextOutputStreamTransform(new string[] { UserRole, AssistantRole }));
             return chatSession;
         }
 

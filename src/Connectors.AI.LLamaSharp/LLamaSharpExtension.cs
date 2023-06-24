@@ -26,10 +26,7 @@ namespace Connectors.AI.LLamaSharp
 
             var history = new LLama.Common.ChatHistory();
 
-            if (chatHistory.Count == 1)
-            {
-                history.AddMessage(LLama.Common.AuthorRole.System, SystemMessage);
-            }
+
 
 
             foreach (var chat in chatHistory)
@@ -37,11 +34,11 @@ namespace Connectors.AI.LLamaSharp
                 var role = Enum.TryParse<LLama.Common.AuthorRole>(chat.Role.Label, out var _role) ? _role : LLama.Common.AuthorRole.Unknown;
                 history.AddMessage(role, chat.Content);
             }
-            if (chatHistory.Last().Role == AuthorRole.User)
-            {
-                // add empty assistant message to trigger the model
-                history.AddMessage(LLama.Common.AuthorRole.Assistant, string.Empty);
-            }
+            //if (chatHistory.Last().Role == AuthorRole.User)
+            //{
+            //    // add empty assistant message to trigger the model
+            //    history.AddMessage(LLama.Common.AuthorRole.Assistant, string.Empty);
+            //}
 
             return history;
         }
@@ -65,7 +62,9 @@ namespace Connectors.AI.LLamaSharp
                 PresencePenalty = (float)requestSettings.PresencePenalty,
                 FrequencyPenalty = (float)requestSettings.FrequencyPenalty,
                 AntiPrompts = antiPrompts,
-                MaxTokens = requestSettings.MaxTokens
+                MaxTokens = requestSettings.MaxTokens,
+                InputPrefix = AuthorRole.User.ToString() + ":",
+                InputSuffix = "\n" + AuthorRole.Assistant.ToString() + ":"
             };
         }
 
