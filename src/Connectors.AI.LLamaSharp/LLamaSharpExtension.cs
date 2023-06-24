@@ -13,7 +13,6 @@ namespace Connectors.AI.LLamaSharp
     /// </summary>
     public static class LLamaSharpExtension
     {
-        private const string SystemMessage = "Transcript of a dialog, where the User interacts with an Assistant named Assistant. Assistant is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.";
 
         /// <summary>
         /// Convert ChatHistory to LLamaSharp ChatHistory
@@ -26,22 +25,15 @@ namespace Connectors.AI.LLamaSharp
 
             var history = new LLama.Common.ChatHistory();
 
-
-
-
             foreach (var chat in chatHistory)
             {
                 var role = Enum.TryParse<LLama.Common.AuthorRole>(chat.Role.Label, out var _role) ? _role : LLama.Common.AuthorRole.Unknown;
                 history.AddMessage(role, chat.Content);
             }
-            //if (chatHistory.Last().Role == AuthorRole.User)
-            //{
-            //    // add empty assistant message to trigger the model
-            //    history.AddMessage(LLama.Common.AuthorRole.Assistant, string.Empty);
-            //}
 
             return history;
         }
+
         /// <summary>
         /// Convert ChatRequestSettings to LLamaSharp InferenceParams
         /// </summary>
