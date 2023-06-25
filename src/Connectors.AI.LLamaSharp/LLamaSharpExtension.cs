@@ -54,9 +54,7 @@ namespace Connectors.AI.LLamaSharp
                 PresencePenalty = (float)requestSettings.PresencePenalty,
                 FrequencyPenalty = (float)requestSettings.FrequencyPenalty,
                 AntiPrompts = antiPrompts,
-                MaxTokens = requestSettings.MaxTokens,
-                InputPrefix = AuthorRole.User.ToString() + ":",
-                InputSuffix = "\n" + AuthorRole.Assistant.ToString() + ":"
+                MaxTokens = requestSettings.MaxTokens
             };
         }
 
