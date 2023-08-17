@@ -54,7 +54,7 @@ namespace Connectors.AI.LLamaSharp
                 PresencePenalty = (float)requestSettings.PresencePenalty,
                 FrequencyPenalty = (float)requestSettings.FrequencyPenalty,
                 AntiPrompts = antiPrompts,
-                MaxTokens = requestSettings.MaxTokens
+                MaxTokens = requestSettings.MaxTokens ?? -1
             };
         }
 
@@ -74,7 +74,7 @@ namespace Connectors.AI.LLamaSharp
                 PresencePenalty = (float)requestSettings.PresencePenalty,
                 FrequencyPenalty = (float)requestSettings.FrequencyPenalty,
                 AntiPrompts = requestSettings.StopSequences,
-                MaxTokens = requestSettings.MaxTokens
+                MaxTokens = requestSettings.MaxTokens ?? -1
             };
         }
     }
