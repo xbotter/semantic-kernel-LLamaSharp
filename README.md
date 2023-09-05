@@ -1,3 +1,7 @@
+⚠️**The implementation of this project has been migrated to the [LlamaSharp](https://github.com/SciSharp/LLamaSharp) repository, and maintenance will be continued there in the future.**
+
+---
+
 # semantic-kernel-LLamaSharp
 
 Using [LLamaSharp](https://github.com/SciSharp/LLamaSharp) to implement custom TextCompletion and EmbeddingGeneration of [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
